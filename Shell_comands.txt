@@ -66,5 +66,10 @@ post=Post.objects.get(id=2))
 ...     i.rating
 ...     i.title
 ...     i.preview()
-
-
+>>> c = Comment.objects.filter(post=p)
+>>> c.values('time','user','rating','text')
+>>> for i in c:
+...     i.time.strftime("%Y-%m-%d, %H:%M:%S")
+...     i.user.username
+...     i.rating
+...     i.text
