@@ -9,6 +9,7 @@ News
 <!-- В контенте на странице мы выводим сам товар, ID которого было передано в адрес -->
 {% block content %}
 <h1>{{ new.title }}</h1>
-<tr>
+<h3>{{ new.time|date:'d M Y' }}</h3>
+<hr>
     <h2>{{ new.text }}</h2>
 {% endblock content %}
