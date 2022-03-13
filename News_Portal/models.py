@@ -42,7 +42,7 @@ class Post(models.Model):
         (ARTICLE, 'Статья'),
     )
     type = models.CharField(max_length=2, choices=CAT_CHOICES, default=ARTICLE)
-    time = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     category = models.ManyToManyField(Category, through='PostCategory')
