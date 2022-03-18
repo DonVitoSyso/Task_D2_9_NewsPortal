@@ -1,39 +1,21 @@
-<{% extends 'flatpages/default.html' %}
+{% extends 'flatpages/default.html' %}
 
 {% block title %}
 News
 {% endblock title %}
 
 {% block content %}
-
-<table>
-    <tr>
+<h1> {{ new.title }} </h1>
+<hr>
+<tr>
         <td>
-            Заголовок
-        </td>
-        <td>
-            Дата публикации
-        </td>
-        <td>
-            Сатья
-        </td>
-        <td>
-            Автор
-        </td>
-    </tr>
-    <tr>
-        <td>
-            {{ new.title }} <!-- При нажатии на имя товара в таблице нас теперь будет перекидывать на страницу с самого товара -->
+            {{ new.author.user }}
         </td>
         <td>
             {{ new.date|date:'d-m-Y' }}
         </td>
-        <td>
-            {{ new.text|truncatechars:50 }}
-        </td>
-        <td>
-            {{ new.author.user }}
-        </td>
-    </tr>
-</table>
+</tr>
+<hr>
+{{ new.text }}
+
 {% endblock content %}
