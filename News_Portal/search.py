@@ -1,20 +1,46 @@
-from django_filters import FilterSet # импортируем filterset, чем-то напоминающий знакомые дженерики
-from .models import Post
+import django.forms
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter # импортируем filterset, чем-то напоминающий знакомые дженерики
+from .models import Post, Author
+import django_filters
 
 
 # создаём фильтр
 class PostSearch(FilterSet):
-    # date = DateField(label='Дата')
-    # text = CharField(label='Статья')
-    # author = CharField(label='Автор')
+    # date = DateFilter(
+    #     field_name="date",
+    #     lookup_expr="lt",
+    #     label="Дата",
+    # )
+    # date.field.error_messages = {'invalid': 'Введите дату в формате ДД.ММ.ГГГГ. Например 31.12.2020'}
+    # date.field.widget.attrs = {'placeholder': 'ДД.ММ.ГГГГ'}
+    date = django_filters.DateFilter(
+        label = 'Дата',
+        lookup_expr = 'lte',
+        widget = django.forms.DateInput(
+            attrs = {
+                'type': 'date'
+            }
+        )
+    )
+    # мы хотим чтобы нам выводило имя хотя бы отдалённо похожее на то что запросил пользователь
+    title = CharFilter(
+        lookup_expr = 'icontains',
+        label = 'Название статьи'
+    )
+    # мы хотим чтобы нам выводило имя из списка
+    author = ModelChoiceFilter(
+        queryset = Author.objects.all(),
+        label = 'Автор'
+    )
     # Здесь в мета классе надо предоставить модель и указать поля, по которым будет фильтроваться (т. е. подбираться) информация о товарах
     class Meta:
         model = Post
-        fields = {
-            'date': ['lt'],
-            # статьи позже определенной даты, что указал пользователь
-            'title': ['icontains'],
-            # мы хотим чтобы нам выводило имя хотя бы отдалённо похожее на то что запросил пользователь
-            'author': ['exact'],
-            # мы хотим чтобы нам выводило имя из списка
-        }
+        # date = DateFilter(
+        #     lookup_expr='icontains',
+        #     widget = django.forms.DateInput(
+        #         attrs = {
+        #             'type': 'date'
+        #         }
+        #     )
+        # )
+        fields = ('date', 'title', 'author')

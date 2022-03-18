@@ -7,6 +7,10 @@ class Author(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.SmallIntegerField(default=0)
 
+    # Делаем нормальный вывод имени пользователя
+    def __str__(self):
+        return f'{self.user}'
+
     def update_rating(self):
         # Cуммарный рейтинг каждой статьи автора умножается на 3
         postR = self.post_set.aggregate(postRating=Sum('rating'))
