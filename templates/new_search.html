@@ -5,8 +5,6 @@ News
 {% endblock title %}
 
 {% block content %}
-    <h1>Все новости (всего {{ news|length }})</h1>
-    <hr>
     <!-- Перед таблицей добавим форму для поиска -->
     <form method="GET">
         {{ filter.form }} <!-- Форму от фильтров за нас сделает django. А вот кнопку, увы придётся делать самому -->
@@ -74,9 +72,4 @@ News
 
     {% endif %}
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
-        <input type="submit" value="Добавить новость">
-    </form>
 {% endblock content %}

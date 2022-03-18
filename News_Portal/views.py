@@ -73,3 +73,21 @@ class PostDeleteView(DeleteView):
     context_object_name = 'new'
     queryset = Post.objects.all()
     success_url = '/news/'
+
+
+class PostSearchView(ListView):
+    model = Post  # указываем модель, объекты которой мы будем выводить
+    template_name = 'new_search.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
+    context_object_name = 'news'
+    paginate_by = 10  # поставим постраничный вывод в 10 элементов
+    ordering = ['-id']
+    # queryset = Post.objects.all()  # Default: Model.objects.all()
+    # form_class = PostForm  # добавляем форм класс, чтобы получать доступ к форме через метод POST
+
+    # метод get_context_data нужен нам для того, чтобы мы могли передать переменные в шаблон. В возвращаемом словаре context будут храниться все переменные. Ключи этого словаря и есть переменные, к которым мы сможем потом обратиться через шаблон
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = PostSearch(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
+        # context['categories'] = Category.objects.all()
+        # context['form'] = PostForm()
+        return context
