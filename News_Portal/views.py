@@ -84,10 +84,16 @@ class PostSearchView(ListView):
     # queryset = Post.objects.all()  # Default: Model.objects.all()
     # form_class = PostForm  # добавляем форм класс, чтобы получать доступ к форме через метод POST
 
-    # метод get_context_data нужен нам для того, чтобы мы могли передать переменные в шаблон. В возвращаемом словаре context будут храниться все переменные. Ключи этого словаря и есть переменные, к которым мы сможем потом обратиться через шаблон
+    # Помощь ментора обычный get_context_data из PostList не подойдет
+    # пагинатор не верно отображает листы
+    def get_filter(self):
+        return PostSearch(self.request.GET, queryset=super().get_queryset())
+
+    def get_queryset(self):
+        return self.get_filter().qs
+
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = PostSearch(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
-        # context['categories'] = Category.objects.all()
-        # context['form'] = PostForm()
-        return context
+        return {
+            **super().get_context_data(**kwargs),
+            'filter': self.get_filter(),
+        }
