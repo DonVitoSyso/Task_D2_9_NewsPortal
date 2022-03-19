@@ -8,7 +8,27 @@ News
 
 <form method="POST">
     {% csrf_token %}
-    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+     <table>
+         <tr>
+            <td>
+                Заголовок: {{ form.title }}
+            </td>
+            <td>
+                Категория: {{ form.category }}
+            </td>
+            <td>
+                Статья/новость: {{ form.type }}
+            </td>
+            <td>
+                Автор: {{ form.author }}
+            </td>
+         </tr>
+         <tr>
+             <td>
+                Текст: {{ form.text }}
+            </td>
+         </tr>
+     </table>
     <input type="submit" value="Добавить новость">
 </form>
 
