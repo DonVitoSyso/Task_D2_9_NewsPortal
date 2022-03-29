@@ -6,7 +6,9 @@ from datetime import datetime
 
 from django.core.paginator import Paginator  # импортируем класс, позволяющий удобно осуществлять постраничный вывод
 from .search import PostSearch  # импортируем недавно написанный фильтр
-from .form import PostForm  # импортируем нашу форму
+from .form import PostForm, AuthorForm  # импортируем нашу форму
+
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # class PostList(ListView):
@@ -23,7 +25,10 @@ from .form import PostForm  # импортируем нашу форму
 #             'value1'] = None  # добавим ещё одну пустую переменную, чтобы на её примере посмотреть работу другого фильтра
 #         return context
 
-class PostList(ListView):
+class PostList(ListView):#(PermissionRequiredMixin, ListView):
+    # Проверка на права доступа. Авторизация обязательная!!!
+    # permission_required = ('<app>.<action>_<model>', '<app>.<action>_<model>')
+
     model = Post  # указываем модель, объекты которой мы будем выводить
     template_name = 'new_list.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'news'
@@ -50,13 +55,17 @@ class PostDetail(DetailView):
     queryset = Post.objects.all()
 
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
-class PostCreateView(CreateView):
+class PostCreateView(PermissionRequiredMixin, CreateView):
+    # Проверка на права доступа
+    permission_required = ('New_Portal.add_new',)
     template_name = 'new_create.html'
     form_class = PostForm
     success_url = '/news/'
 
 # дженерик для редактирования объекта
-class PostUpdateView(UpdateView):
+class PostUpdateView(PermissionRequiredMixin, UpdateView):
+    # Проверка на права доступа
+    permission_required = ('New_Portal.change_new',)
     template_name = 'new_create.html'
     form_class = PostForm
     # success_url = '/news/'
@@ -67,8 +76,11 @@ class PostUpdateView(UpdateView):
         return Post.objects.get(pk=id)
 
 
-# дженерик для удаления товара
-class PostDeleteView(DeleteView):
+# дженерик для удаления новостей
+class PostDeleteView(PermissionRequiredMixin, DeleteView):
+    # Проверка на права доступа
+    permission_required = ('New_Portal.delete_new',)
+
     template_name = 'new_delete.html'
     context_object_name = 'new'
     queryset = Post.objects.all()
@@ -97,3 +109,11 @@ class PostSearchView(ListView):
             **super().get_context_data(**kwargs),
             'filter': self.get_filter(),
         }
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'author_update.html'
+    form_class = AuthorForm
+
+    def get_object(self, **kwargs):
+        return self.request.user

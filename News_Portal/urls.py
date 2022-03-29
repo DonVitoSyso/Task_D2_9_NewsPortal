@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PostList, PostDetail, PostUpdateView, PostDeleteView, PostCreateView, PostSearchView  # импортируем наше представление
+from .views import PostList, PostDetail, PostUpdateView, PostDeleteView, PostCreateView, PostSearchView, UserUpdateView  # импортируем наше представление
 
 urlpatterns = [
     # path — означает путь. В данном случае путь ко всем товарам у нас останется пустым, позже станет ясно, почему
@@ -10,4 +10,5 @@ urlpatterns = [
     path('delete/<int:pk>', PostDeleteView.as_view(), name='new_delete'),
     path('add/', PostCreateView.as_view(), name='new_create'),  # Ссылка на создание товара
     path('search/', PostSearchView.as_view(), name='new_search'),
+    path('user', UserUpdateView.as_view(), name='user_update'),
 ]

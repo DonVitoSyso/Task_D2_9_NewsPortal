@@ -1,5 +1,5 @@
 from django.forms import ModelForm, CharField
-from .models import Post
+from .models import Post, User, Author
 
 
 # Создаём модельную форму
@@ -11,3 +11,9 @@ class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'text', 'type', 'author', 'category']
+
+# Создаём модельную форму Для Авторов
+class AuthorForm(ModelForm):
+    class Meta:
+        model = User
+        fields = '__all__'
