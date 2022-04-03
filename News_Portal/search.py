@@ -1,6 +1,6 @@
 import django.forms
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter # импортируем filterset, чем-то напоминающий знакомые дженерики
-from .models import Post, Author
+from .models import Post, Author, Category
 import django_filters
 
 
@@ -32,8 +32,12 @@ class PostSearch(FilterSet):
         queryset = Author.objects.all(),
         label = 'Автор'
     )
+    # мы хотим чтобы нам выводило категория списком
+    category = ModelChoiceFilter(
+        queryset=Category.objects.all(),
+        label='Категория'
+    )
     # Здесь в мета классе надо предоставить модель и указать поля, по которым будет фильтроваться (т. е. подбираться) информация о товарах
     class Meta:
         model = Post
-
-        fields = ('date', 'title', 'author')
+        fields = ('date', 'title', 'author', 'category')
