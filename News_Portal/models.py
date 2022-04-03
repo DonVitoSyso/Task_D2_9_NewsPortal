@@ -33,6 +33,7 @@ class Author(models.Model):
 # Класс написан
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribers = models.ForeignKey(User, on_delete=models.CASCADE)
 
 # Готов класс
 class Post(models.Model):
