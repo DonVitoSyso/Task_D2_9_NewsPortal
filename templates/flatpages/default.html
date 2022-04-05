@@ -36,6 +36,8 @@
                        </li>
                    </ul>
                </div>
+               {% load account %} <!-- Загружаем тег который позволит получить нам ссылку на подтверждение -->
+                <h1 class="navbar-brand">You have registered as an - {{ user.username }}!</h1>
            </div>
         </nav>
         <!-- Page content-->
