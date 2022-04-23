@@ -30,7 +30,7 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
     # permission_required = ('<app>.<action>_<model>', '<app>.<action>_<model>')
 
     model = Post  # указываем модель, объекты которой мы будем выводить
-    template_name = 'new_list.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
+    template_name = 'news.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'news'
     paginate_by = 10  # поставим постраничный вывод в 10 элементов
     ordering = ['-id']
@@ -60,7 +60,7 @@ class PostCreateView(PermissionRequiredMixin, CreateView):
     permission_required = ('New_Portal.add_new',)
     template_name = 'new_create.html'
     form_class = PostForm
-    success_url = '/news/'
+    # success_url = '/news/'
 
 # дженерик для редактирования объекта
 class PostUpdateView(PermissionRequiredMixin, UpdateView):

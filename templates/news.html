@@ -25,6 +25,9 @@ News
                 <td>
                     Автор
                 </td>
+                <td>
+                    Категория
+                </td>
             </tr>
             {% for new in news %}
                 <tr>
@@ -41,6 +44,11 @@ News
                     </td>
                     <td>
                         {{ new.author.user }}
+                    </td>
+                    <td>
+                        {% for category in new.category.all %}
+                            {{ category }}
+                        {% endfor %}
                     </td>
                 </tr>
             {% endfor %}
