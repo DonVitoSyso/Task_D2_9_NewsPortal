@@ -50,7 +50,7 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
 # дженерик для получения деталей о товаре
 class PostDetail(DetailView):
     # model = Post  # модель всё та же, но мы хотим получать детали конкретно отдельного товара
-    template_name = 'new_detail.html'  # название шаблона будет product.html
+    template_name = 'new.html'  # название шаблона будет product.html
     context_object_name = 'new'  # название объекта. в нём будет
     queryset = Post.objects.all()
 

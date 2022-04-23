@@ -1,4 +1,5 @@
 from django import template
+from datetime import datetime
 
 register = template.Library()  # если мы не зарегистрируем наши фильтры, # то Django никогда не узнает, где именно их искать и фильтры потеряются
 # список слов, которые будем цензурировать
@@ -14,3 +15,7 @@ def Censor(value): # первый аргумент здесь это то зна
        value = value.replace(word[1:], '*' * (len(word)-1))
 
    return value
+
+@register.simple_tag()
+def current_time(format_string='%b %d %Y'):
+   return datetime.utcnow().strftime(format_string)
