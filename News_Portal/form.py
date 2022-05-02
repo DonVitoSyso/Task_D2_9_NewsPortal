@@ -5,10 +5,10 @@ from .models import Post, User, Author, Category
 # Создаём модельную форму
 class PostForm(ModelForm):
     # мы хотим чтобы нам выводило категория списком
-    category = ModelChoiceField(
-        queryset=Category.objects.all(),
-        empty_label=None,
-    )
+    # category = ModelChoiceField(
+    #     queryset=Category.objects.all(),
+    #     empty_label=None,
+    # )
     # в класс мета, как обычно, надо написать модель, по которой будет строится форма и нужные нам поля. Мы уже делали что-то похожее с фильтрами.
     class Meta:
         model = Post

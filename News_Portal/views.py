@@ -58,10 +58,17 @@ class PostDetail(DetailView):
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
 class PostCreateView(PermissionRequiredMixin, CreateView):
     # Проверка на права доступа
+    model = Post
     permission_required = ('New_Portal.add_new',)
     template_name = 'new_create.html'
     form_class = PostForm
     # success_url = '/news/'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.type = 'NEWS'
+        return super().form_valid(form)
+
 
 # дженерик для редактирования объекта
 class PostUpdateView(PermissionRequiredMixin, UpdateView):
@@ -81,7 +88,6 @@ class PostUpdateView(PermissionRequiredMixin, UpdateView):
 class PostDeleteView(PermissionRequiredMixin, DeleteView):
     # Проверка на права доступа
     permission_required = ('New_Portal.delete_new',)
-
     template_name = 'new_delete.html'
     context_object_name = 'new'
     queryset = Post.objects.all()
@@ -118,3 +124,12 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, **kwargs):
         return self.request.user
+
+
+# Дженерики под статьи
+class ArticleCreateView(PermissionRequiredMixin, CreateView):
+    # Проверка на права доступа
+    model = Post
+    permission_required = ('New_Portal.add_new',)
+    template_name = 'new_create.html'
+    form_class = PostForm
