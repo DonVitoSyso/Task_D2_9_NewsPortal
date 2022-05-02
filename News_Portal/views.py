@@ -32,7 +32,7 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
     model = Post  # указываем модель, объекты которой мы будем выводить
     template_name = 'news.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'news'
-    paginate_by = 10  # поставим постраничный вывод в 10 элементов
+    paginate_by = 5  # поставим постраничный вывод в 10 элементов
     ordering = ['-id']
     # queryset = Post.objects.all()  # Default: Model.objects.all()
     # form_class = PostForm  # добавляем форм класс, чтобы получать доступ к форме через метод POST
@@ -47,10 +47,10 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
 
 
 # создаём представление, в котором будут детали конкретного отдельного товара
-# дженерик для получения деталей о товаре
+# дженерик для получения деталей о новости
 class PostDetail(DetailView):
     # model = Post  # модель всё та же, но мы хотим получать детали конкретно отдельного товара
-    template_name = 'new.html'  # название шаблона будет product.html
+    template_name = 'new.html'  # название шаблона будет new.html
     context_object_name = 'new'  # название объекта. в нём будет
     queryset = Post.objects.all()
 
