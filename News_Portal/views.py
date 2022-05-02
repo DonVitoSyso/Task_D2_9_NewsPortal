@@ -32,7 +32,7 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
     model = Post  # указываем модель, объекты которой мы будем выводить
     template_name = 'news.html'  # указываем имя шаблона, в котором будет лежать HTML, в котором будут все инструкции о том, как именно пользователю должны вывестись наши объекты
     context_object_name = 'news'
-    paginate_by = 5  # поставим постраничный вывод в 10 элементов
+    paginate_by = 10  # поставим постраничный вывод в 10 элементов
     ordering = ['-id']
     # queryset = Post.objects.all()  # Default: Model.objects.all()
     # form_class = PostForm  # добавляем форм класс, чтобы получать доступ к форме через метод POST
@@ -41,6 +41,7 @@ class PostList(ListView):#(PermissionRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = PostSearch(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
+        context['count'] = Post.objects.all().count() #добавили поле для общего колличества страниц
         # context['categories'] = Category.objects.all()
         # context['form'] = PostForm()
         return context

@@ -16,28 +16,27 @@ class PostSearch(FilterSet):
     date = django_filters.DateFilter(
         label = 'Дата',
         lookup_expr = 'lte',
-        widget = django.forms.DateInput(
-            attrs = {
-                'type': 'date'
-            }
-        )
+        widget = django.forms.DateInput(attrs = {'type': 'date'})
     )
     # мы хотим чтобы нам выводило имя хотя бы отдалённо похожее на то что запросил пользователь
     title = CharFilter(
         lookup_expr = 'icontains',
-        label = 'Название статьи'
+        label = 'Название статьи',
     )
     # мы хотим чтобы нам выводило имя из списка
     author = ModelChoiceFilter(
         queryset = Author.objects.all(),
-        label = 'Автор'
+        label = 'Автор',
+        empty_label = 'Все авторы',
     )
     # мы хотим чтобы нам выводило категория списком
     category = ModelChoiceFilter(
         queryset=Category.objects.all(),
-        label='Категория'
+        label='Категория',
+        empty_label='Все категорииё',
     )
-    # Здесь в мета классе надо предоставить модель и указать поля, по которым будет фильтроваться (т. е. подбираться) информация о товарах
+    # Здесь в мета классе надо предоставить модель и указать поля, по которым будет фильтроваться
+    # (т. е. подбираться) информация о товарах
     class Meta:
         model = Post
         fields = ('date', 'title', 'author', 'category')
